@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import { usePetals } from '../hooks/usePetals';
 import ProjectImageCarousel from './ProjectImageCarousel';
+import ProjectTechStack from './ProjectTechStack';
 
 function ActionButton({ href, icon, label, variant }) {
   if (!href) return null;
@@ -53,6 +54,8 @@ export default function ProjectDetail({ project }) {
 
             <ProjectImageCarousel project={project} />
           </div>
+
+          <ProjectTechStack projectId={project.id} />
         </div>
       </div>
     </section>
