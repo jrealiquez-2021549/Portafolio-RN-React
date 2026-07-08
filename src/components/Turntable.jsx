@@ -110,10 +110,22 @@ export default function Turntable() {
           ref={btnRef}
           onClick={handleClick}
         >
-          <span className="turntable__vinyl">
-            <span className="turntable__label"></span>
+          <span className="turntable__base">
+            <span className="turntable__platter">
+              <span className="turntable__vinyl">
+                <span className="turntable__shine"></span>
+                <span className="turntable__label">
+                  <span className="turntable__label-mark"></span>
+                </span>
+                <span className="turntable__spindle"></span>
+              </span>
+            </span>
+
+            <span className="turntable__arm">
+              <span className="turntable__arm-head"></span>
+            </span>
+            <span className="turntable__pivot"></span>
           </span>
-          <span className="turntable__arm"></span>
         </button>
       </div>
 

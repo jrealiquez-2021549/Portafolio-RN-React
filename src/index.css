@@ -1497,7 +1497,7 @@ section[id] {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  min-height: 100px;
+  min-height: 112px;
   background-color: var(--color-card);
   border: 1px solid rgba(245, 241, 230, 0.08);
   border-radius: 12px;
@@ -1507,7 +1507,7 @@ section[id] {
 
 .tech__row:hover {
   transform: translateY(-3px);
-  border-color: #FFFFFF;
+  border-color: var(--color-accent);
 }
 
 .tech__icon {
@@ -2143,66 +2143,90 @@ body.lightbox-open {
 
 .turntable__disc-btn {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 108px;
+  height: 108px;
   padding: 0;
   border: none;
-  border-radius: 50%;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at 32% 28%, #223229 0%, #0E1712 68%);
-  box-shadow:
-    0 14px 36px rgba(0, 0, 0, 0.5),
-    0 0 0 3px rgba(209, 187, 124, 0.28),
-    0 0 0 1px rgba(245, 241, 230, 0.06) inset;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  background: transparent;
+  transition: transform var(--transition-base);
 }
 
 .turntable__disc-btn:hover {
   transform: translateY(-3px);
-  box-shadow:
-    0 18px 42px rgba(0, 0, 0, 0.55),
-    0 0 0 3px rgba(209, 187, 124, 0.55),
-    0 0 24px rgba(209, 187, 124, 0.25);
 }
 
-.turntable__disc-btn::before {
+/* ---- Base / plinth: el cuerpo del tocadiscos, cuadrado y redondeado ---- */
+.turntable__base {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: linear-gradient(155deg, #26382D 0%, #101913 62%, #0A100C 100%);
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(245, 241, 230, 0.07) inset,
+    0 1px 0 rgba(245, 241, 230, 0.08) inset;
+  transition: box-shadow var(--transition-base);
+}
+
+.turntable__disc-btn:hover .turntable__base {
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(209, 187, 124, 0.4) inset,
+    0 0 20px rgba(209, 187, 124, 0.2);
+}
+
+/* Aro luminoso que pulsa alrededor de la base mientras suena */
+.turntable__base::before {
   content: '';
   position: absolute;
   inset: -8px;
-  border-radius: 50%;
+  border-radius: 26px;
   border: 1.5px solid rgba(209, 187, 124, 0.35);
   opacity: 0;
-  transform: scale(0.9);
+  transform: scale(0.94);
   transition: opacity var(--transition-base), transform var(--transition-base);
 }
 
-.turntable.is-playing .turntable__disc-btn::before {
+.turntable.is-playing .turntable__base::before {
   opacity: 1;
   animation: turntable-pulse 2.4s ease-in-out infinite;
 }
 
 @keyframes turntable-pulse {
   0%, 100% {
-    transform: scale(0.94);
+    transform: scale(0.96);
     opacity: 0.55;
   }
   50% {
-    transform: scale(1.08);
+    transform: scale(1.06);
     opacity: 0.15;
   }
 }
 
-/* ---- Disco de vinilo: gira solo mientras suena la música ---- */
+/* ---- Plato: el mat circular sobre el que descansa el vinilo ---- */
+.turntable__platter {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #182720 0%, #060907 72%);
+  box-shadow:
+    0 0 0 1px rgba(245, 241, 230, 0.05),
+    inset 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* ---- Disco de vinilo: reposa visualmente sobre el plato ---- */
 .turntable__vinyl {
-  position: relative;
-  width: 72px;
-  height: 72px;
+  position: absolute;
+  inset: 3px;
   border-radius: 50%;
   background: repeating-radial-gradient(circle at center, #1c2a22 0 2px, #070d0a 2px 4px);
-  box-shadow: inset 0 0 0 2px rgba(209, 187, 124, 0.12);
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 2px rgba(209, 187, 124, 0.12);
   animation: turntable-spin 2.4s linear infinite;
   animation-play-state: paused;
 }
@@ -2211,16 +2235,47 @@ body.lightbox-open {
   animation-play-state: running;
 }
 
+/* Brillo asimétrico: al girar con el disco, este es el que realmente
+   delata el movimiento (las ranuras concéntricas por sí solas son
+   perfectamente simétricas y no muestran rotación). */
+.turntable__shine {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(245, 241, 230, 0) 0deg,
+    rgba(245, 241, 230, 0.22) 18deg,
+    rgba(245, 241, 230, 0) 55deg,
+    rgba(245, 241, 230, 0) 300deg,
+    rgba(245, 241, 230, 0.1) 335deg,
+    rgba(245, 241, 230, 0) 360deg
+  );
+  mix-blend-mode: screen;
+}
+
 .turntable__label {
   position: absolute;
-  inset: 25px;
+  inset: 27px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--color-accent), #efd9a0);
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4) inset;
 }
 
-.turntable__label::after {
-  content: '';
+/* Marca pequeña y descentrada: refuerza que el giro se perciba de un
+   vistazo, incluso a distancia. */
+.turntable__label-mark {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(14, 23, 18, 0.55);
+  transform: translateX(-50%);
+}
+
+.turntable__spindle {
   position: absolute;
   inset: 0;
   margin: auto;
@@ -2228,36 +2283,51 @@ body.lightbox-open {
   height: 6px;
   border-radius: 50%;
   background: #0E1712;
+  box-shadow: 0 0 0 1px rgba(245, 241, 230, 0.15);
 }
 
-/* ---- Brazo: descansa afuera y se posa sobre el disco al reproducir ---- */
+/* ---- Brazo: pivota desde un punto fijo en la base, no en el disco ---- */
+.turntable__pivot {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #efd9a0, var(--color-accent));
+  box-shadow: 0 0 6px rgba(209, 187, 124, 0.5);
+  z-index: 2;
+}
+
 .turntable__arm {
   position: absolute;
-  top: 6px;
-  right: 8px;
-  width: 42px;
-  height: 5px;
+  top: 15px;
+  right: 13px;
+  width: 46px;
+  height: 4px;
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--color-accent), rgba(209, 187, 124, 0.35));
+  background: linear-gradient(90deg, rgba(209, 187, 124, 0.4), var(--color-accent));
   transform-origin: 100% 50%;
-  transform: rotate(-34deg);
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: rotate(-52deg);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 2;
 }
 
-.turntable__arm::after {
-  content: '';
+.turntable__arm-head {
   position: absolute;
-  top: -3.5px;
-  right: -3.5px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+  top: -3px;
+  left: -3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
   background: var(--color-accent);
-  box-shadow: 0 0 8px rgba(209, 187, 124, 0.6);
+  box-shadow: 0 0 6px rgba(209, 187, 124, 0.55);
 }
 
+/* En reposo el brazo apunta hacia afuera del plato; al reproducir,
+   la punta desciende sobre el borde exterior del vinilo. */
 .turntable.is-playing .turntable__arm {
-  transform: rotate(-4deg);
+  transform: rotate(-16deg);
 }
 
 @keyframes turntable-spin {
@@ -2285,21 +2355,30 @@ body.lightbox-open {
   }
 
   .turntable__disc-btn {
-    width: 78px;
-    height: 78px;
+    width: 90px;
+    height: 90px;
   }
 
-  .turntable__vinyl {
-    width: 58px;
-    height: 58px;
+  .turntable__platter {
+    left: 12.5px;
+    top: 12.5px;
+    width: 65px;
+    height: 65px;
   }
 
   .turntable__label {
-    inset: 20px;
+    inset: 22px;
+  }
+
+  .turntable__pivot {
+    top: 10px;
+    right: 8px;
   }
 
   .turntable__arm {
-    width: 34px;
+    top: 13px;
+    right: 11px;
+    width: 38px;
   }
 }
 
