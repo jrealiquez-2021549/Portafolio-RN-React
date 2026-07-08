@@ -197,6 +197,125 @@ section[id] {
   transform: translateY(-2px);
 }
 
+.navbar__mail {
+  position: relative;
+  display: flex;
+}
+
+.navbar__social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.navbar__social-btn img {
+  height: 20px;
+  width: 20px;
+  opacity: 0.9;
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.navbar__social-btn:hover img,
+.navbar__social-btn[aria-expanded='true'] img {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.navbar__mail-popover {
+  position: absolute;
+  top: calc(100% + 16px);
+  right: -12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background-color: var(--color-card);
+  border: 1px solid rgba(209, 187, 124, 0.25);
+  border-radius: 12px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  animation: mailPopoverIn 0.18s ease-out;
+  z-index: 10;
+}
+
+.navbar__mail-popover::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-card);
+  border-left: 1px solid rgba(209, 187, 124, 0.25);
+  border-top: 1px solid rgba(209, 187, 124, 0.25);
+  transform: rotate(45deg);
+}
+
+.navbar__mail-address {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.navbar__mail-copy {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-bg-dark);
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.navbar__mail-copy:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes mailPopoverIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 860px) {
+  .navbar__mail-popover {
+    top: 50%;
+    left: calc(100% + 14px);
+    right: auto;
+    transform: translateY(-50%);
+  }
+
+  .navbar__mail-popover::before {
+    top: 50%;
+    left: -6px;
+    right: auto;
+    border-left: none;
+    border-top: none;
+    border-right: 1px solid rgba(209, 187, 124, 0.25);
+    border-bottom: 1px solid rgba(209, 187, 124, 0.25);
+    transform: translateY(-50%) rotate(45deg);
+  }
+}
+
 .navbar__toggle {
   display: none;
   flex-direction: column;
