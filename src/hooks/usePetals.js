@@ -1,6 +1,88 @@
 import { useEffect, useRef } from 'react';
+import { tsParticles } from '@tsparticles/engine';
+import { loadSlim } from '@tsparticles/slim';
+import { loadWobbleUpdater } from '@tsparticles/updater-wobble';
 
-const PETALS_PER_SECTION = 16;
+// El motor de tsParticles solo necesita registrarse una vez, sin importar
+// cuántas secciones (Hero, Habilidades, ProjectDetail) monten el hook.
+let enginePromise = null;
+function ensureEngine() {
+  if (!enginePromise) {
+    enginePromise = Promise.all([
+      loadSlim(tsParticles),
+      loadWobbleUpdater(tsParticles),
+    ]);
+  }
+  return enginePromise;
+}
+
+const petalsOptions = {
+  fullScreen: { enable: false },
+  detectRetina: true,
+  fpsLimit: 60,
+  background: { color: { value: 'transparent' } },
+  particles: {
+    number: {
+      value: 16,
+    },
+    shape: {
+      type: 'image',
+      options: {
+        image: [
+          { src: '/assets/images/petalo-luna-1.png', width: 64, height: 82 },
+          { src: '/assets/images/petalo-luna-2.png', width: 64, height: 82 },
+        ],
+      },
+    },
+    size: {
+      value: { min: 12, max: 24 },
+    },
+    opacity: {
+      value: { min: 0.45, max: 0.9 },
+      animation: {
+        enable: true,
+        speed: 0.6,
+        sync: false,
+        startValue: 'random',
+        destroy: 'none',
+      },
+    },
+    rotate: {
+      value: { min: 0, max: 360 },
+      direction: 'random',
+      animation: { enable: true, speed: 4 },
+    },
+    wobble: {
+      enable: true,
+      distance: 14,
+      speed: { min: -6, max: 6 },
+    },
+    move: {
+      enable: true,
+      direction: 'bottom',
+      straight: false,
+      random: false,
+      speed: { min: 0.5, max: 1.4 },
+      outModes: { default: 'out', top: 'none' },
+      gravity: { enable: false },
+    },
+  },
+  interactivity: {
+    events: {
+      onHover: { enable: false },
+      onClick: { enable: false },
+      resize: { enable: true },
+    },
+  },
+  responsive: [
+    {
+      maxWidth: 768,
+      options: {
+        particles: { number: { value: 8 } },
+      },
+    },
+  ],
+};
 
 export function usePetals() {
   const containerRef = useRef(null);
@@ -9,42 +91,32 @@ export function usePetals() {
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion) return undefined;
 
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) return undefined;
+
+    let cancelled = false;
+    let particlesContainer = null;
 
     const layer = document.createElement('div');
     layer.className = 'petals';
     layer.setAttribute('aria-hidden', 'true');
-
-    for (let i = 0; i < PETALS_PER_SECTION; i++) {
-      const petal = document.createElement('span');
-      petal.className = 'petal';
-      if (Math.random() > 0.5) petal.classList.add('petal--alt');
-
-      const size = (Math.random() * 10 + 8).toFixed(1);
-      const left = (Math.random() * 100).toFixed(1);
-      const duration = (Math.random() * 8 + 10).toFixed(1);
-      const delay = (Math.random() * duration).toFixed(1);
-      const drift = (Math.random() * 100 - 50).toFixed(0);
-      const opacity = (Math.random() * 0.35 + 0.5).toFixed(2);
-      const hue = (Math.random() * 20 - 10).toFixed(1); // leve variación azul/lavanda
-
-      petal.style.setProperty('--size', `${size}px`);
-      petal.style.setProperty('--left', `${left}%`);
-      petal.style.setProperty('--duration', `${duration}s`);
-      petal.style.setProperty('--delay', `-${delay}s`);
-      petal.style.setProperty('--drift', `${drift}px`);
-      petal.style.setProperty('--opacity', opacity);
-      petal.style.setProperty('--hue', `${hue}deg`);
-
-      layer.appendChild(petal);
-    }
-
+    const layerId = `petals-${Math.random().toString(36).slice(2)}`;
+    layer.id = layerId;
     container.prepend(layer);
 
+    ensureEngine().then(async () => {
+      if (cancelled) return;
+      particlesContainer = await tsParticles.load({
+        id: layerId,
+        options: petalsOptions,
+      });
+    });
+
     return () => {
+      cancelled = true;
+      particlesContainer?.destroy();
       layer.remove();
     };
   }, []);

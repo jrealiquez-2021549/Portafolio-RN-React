@@ -487,84 +487,10 @@ section[id] {
   z-index: 1;
 }
 
-.petal {
-  position: absolute;
-  top: -8%;
-  left: var(--left);
-  width: var(--size);
-  height: calc(var(--size) * 1.25);
-  opacity: var(--opacity);
-  filter: hue-rotate(var(--hue, 0deg));
-
-  /* Forma de pétalo redondeado con base en punta (como un pétalo
-     de campanilla/flor de luna suelto), en vez de hoja tipo sakura */
-  clip-path: polygon(
-    50% 100%,
-    88% 72%,
-    100% 32%,
-    78% 4%,
-    50% 0%,
-    22% 4%,
-    0% 32%,
-    12% 72%
-  );
-
-  background:
-    radial-gradient(
-      ellipse at 50% 30%,
-      #FFFFFF 0%,
-      #F3F6FF 22%,
-      #D7E1FA 42%,
-      #B7C6F0 62%,
-      #93A8E4 82%,
-      #7A92D8 100%
-    );
-  box-shadow: inset 0 0 6px rgba(122, 146, 216, 0.35);
-
-  animation: petalFall var(--duration) linear infinite;
-  animation-delay: var(--delay);
-  will-change: transform, opacity;
-}
-
-.petal--alt {
-  background:
-    radial-gradient(
-      ellipse at 50% 30%,
-      #FFFFFF 0%,
-      #F0F2FF 20%,
-      #DCD9F7 40%,
-      #C3B9EF 62%,
-      #A99CE3 82%,
-      #9186D6 100%
-    );
-  transform: scaleX(-1);
-}
-
-@keyframes petalFall {
-  0% {
-    transform: translate(0, -10vh) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: var(--opacity);
-  }
-  25% {
-    transform: translate(calc(var(--drift) * 0.5), 25vh) rotate(90deg);
-  }
-  50% {
-    transform: translate(var(--drift), 50vh) rotate(180deg);
-  }
-  75% {
-    transform: translate(calc(var(--drift) * 0.5), 75vh) rotate(270deg);
-  }
-  90% {
-    opacity: var(--opacity);
-  }
-  100% {
-    transform: translate(0, 110vh) rotate(360deg);
-    opacity: 0;
-  }
-}
+/* El dibujo del pétalo (forma, degradado, líneas) ahora vive en los SVG
+   de /public/assets/images/petalo-luna-*.svg, cargados como partículas
+   por tsParticles (ver src/hooks/usePetals.js). El canvas que tsParticles
+   inserta dentro de .petals hereda el tamaño por el inset:0 de arriba. */
 
 @media (prefers-reduced-motion: reduce) {
   .petals {
