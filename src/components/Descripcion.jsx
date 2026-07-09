@@ -1,4 +1,5 @@
 import { useReveal } from '../hooks/useReveal';
+import PersonalSkills from './PersonalSkills';
 
 export default function Descripcion() {
   const sectionRef = useReveal();
@@ -31,6 +32,10 @@ export default function Descripcion() {
           className="section__about-image"
           alt="Ilustración de tres personajes alrededor de una fogata"
         />
+      </div>
+
+      <div className="section__inner">
+        <PersonalSkills />
       </div>
     </section>
   );
