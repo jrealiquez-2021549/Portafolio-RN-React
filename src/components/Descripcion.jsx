@@ -9,7 +9,7 @@ export default function Descripcion() {
       <img src="/assets/images/margen.png" className="section__margin" alt="" aria-hidden="true" />
 
       <div className="section__badge">
-        <span className="section__badge-pill">Descripción</span>
+        <span className="section__badge-pill">Sobre mí</span>
         <img src="/assets/icons/03.png" className="section__badge-icon" alt="" aria-hidden="true" />
       </div>
 

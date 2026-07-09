@@ -82,7 +82,7 @@ export default function Habilidades() {
   return (
     <section id="habilidades" className="section section--habilidades" ref={setRefs}>
       <div className="section__badge">
-        <span className="section__badge-pill">Habilidades</span>
+        <span className="section__badge-pill">Habilidades técnicas</span>
         <img src="/assets/icons/02.png" className="section__badge-icon" alt="" aria-hidden="true" />
       </div>
 

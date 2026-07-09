@@ -137,6 +137,7 @@ section[id] {
   text-transform: uppercase;
   color: var(--color-text);
   padding-bottom: 6px;
+  white-space: nowrap;
   transition: color var(--transition-base);
 }
 
@@ -759,6 +760,8 @@ section[id] {
   text-transform: uppercase;
   padding: 18px 48px 18px 32px;
   border-radius: 999px;
+  min-width: 260px;
+  text-align: center;
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
 }
 
@@ -1875,6 +1878,20 @@ section[id] {
   }
 }
 
+@media (min-width: 861px) and (max-width: 1180px) {
+  .navbar__inner {
+    padding: 0 24px;
+  }
+
+  .navbar__links {
+    gap: 18px;
+  }
+
+  .navbar__link {
+    font-size: 0.72rem;
+  }
+}
+
 /* =====================================================
   RESPONSIVE
 ===================================================== */
@@ -1989,6 +2006,7 @@ section[id] {
 
   .section__badge-pill {
     padding: 14px 34px 14px 24px;
+    min-width: 200px;
   }
 
   .section__badge-icon {
@@ -2045,6 +2063,7 @@ section[id] {
   .section__badge-pill {
     font-size: 1rem;
     padding: 12px 30px 12px 20px;
+    min-width: 150px;
   }
 
   .section__badge-icon {

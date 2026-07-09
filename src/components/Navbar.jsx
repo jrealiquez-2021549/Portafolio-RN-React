@@ -5,8 +5,8 @@ const CONTACT_EMAIL = 'realiqueznoriega80@gmail.com';
 
 const NAV_LINKS = [
   { href: '#inicio', label: 'Inicio' },
-  { href: '#descripcion', label: 'Descripción' },
-  { href: '#habilidades', label: 'Habilidades' },
+  { href: '#descripcion', label: 'Sobre mí' },
+  { href: '#habilidades', label: 'Habilidades técnicas' },
   { href: '#proyectos', label: 'Proyectos' },
 ];
 
