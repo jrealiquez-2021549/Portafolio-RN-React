@@ -7,7 +7,8 @@ const NAV_LINKS = [
   { href: '#inicio', label: 'Inicio' },
   { href: '#descripcion', label: 'Sobre mí' },
   { href: '#habilidades', label: 'Habilidades técnicas' },
-  { href: '#proyectos', label: 'Proyectos' },
+  { href: '#proyectos', label: 'Proyectos Destacados' },
+  { href: '#proyectos-personales', label: 'Proyectos Personales' },
 ];
 
 export default function Navbar() {

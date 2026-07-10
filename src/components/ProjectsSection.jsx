@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { PROJECTS_DATA } from '../data/projectsData';
 import { useReveal } from '../hooks/useReveal';
 import ProjectCard from './ProjectCard';
 import ProjectDetail from './ProjectDetail';
@@ -11,14 +10,22 @@ const getCardsPerView = () => {
   return 3;
 };
 
-export default function ProjectsSection() {
+export default function ProjectsSection({
+  sectionId,
+  sectionModifier,
+  badgeLabel,
+  badgeIcon,
+  eyebrow,
+  introText,
+  projectsData,
+}) {
   const sectionRef = useReveal();
   const gridRef = useRef(null);
   const [cardIndex, setCardIndex] = useState(0);
   const [transform, setTransform] = useState('translateX(0px)');
-  const [selectedId, setSelectedId] = useState(PROJECTS_DATA[0]?.id);
+  const [selectedId, setSelectedId] = useState(projectsData[0]?.id);
 
-  const getMaxIndex = () => Math.max(0, PROJECTS_DATA.length - getCardsPerView());
+  const getMaxIndex = () => Math.max(0, projectsData.length - getCardsPerView());
 
   const renderCarousel = (index) => {
     const grid = gridRef.current;
@@ -56,31 +63,29 @@ export default function ProjectsSection() {
 
   const maxIndex = getMaxIndex();
   const needsArrows = maxIndex > 0;
-  const selectedProject = PROJECTS_DATA.find((p) => p.id === selectedId) || PROJECTS_DATA[0];
+  const selectedProject = projectsData.find((p) => p.id === selectedId) || projectsData[0];
 
   return (
     <>
-      <section id="proyectos" className="section section--proyectos" ref={sectionRef}>
+      <section
+        id={sectionId}
+        className={`section section--${sectionModifier}`}
+        ref={sectionRef}
+      >
         <img src="/assets/images/margen.png" className="section__margin" alt="" aria-hidden="true" />
 
         <div className="section__badge">
-          <span className="section__badge-pill">Proyectos</span>
-          <img src="/assets/icons/06.png" className="section__badge-icon" alt="" aria-hidden="true" />
+          <span className="section__badge-pill">{badgeLabel}</span>
+          <img src={badgeIcon} className="section__badge-icon" alt="" aria-hidden="true" />
         </div>
 
         <div className="section__inner">
-          <span className="section__eyebrow">Trabajo reciente</span>
-          <p className="section__text skills__intro">
-            En esta parte voy a presentar algunos de los proyectos en los que he trabajado
-            recientemente, destacando las tecnologías y herramientas que utilicé en cada uno
-            de ellos. Cada proyecto refleja mi capacidad para enfrentar desafíos técnicos y mi
-            compromiso con la calidad del desarrollo.
-          </p>
+          <span className="section__eyebrow">{eyebrow}</span>
+          <p className="section__text skills__intro">{introText}</p>
 
           <div className="projects__carousel">
             <button
               className={`projects__arrow projects__arrow--prev${!needsArrows ? ' is-hidden' : ''}`}
-              id="projectsPrev"
               type="button"
               aria-label="Proyecto anterior"
               disabled={cardIndex === 0}
@@ -90,8 +95,8 @@ export default function ProjectsSection() {
             </button>
 
             <div className="projects__viewport">
-              <div className="projects__grid" id="projectsGrid" ref={gridRef} style={{ transform }}>
-                {PROJECTS_DATA.map((project) => (
+              <div className="projects__grid" ref={gridRef} style={{ transform }}>
+                {projectsData.map((project) => (
                   <ProjectCard
                     key={project.id}
                     project={project}
@@ -104,7 +109,6 @@ export default function ProjectsSection() {
 
             <button
               className={`projects__arrow projects__arrow--next${!needsArrows ? ' is-hidden' : ''}`}
-              id="projectsNext"
               type="button"
               aria-label="Proyecto siguiente"
               disabled={cardIndex >= maxIndex}

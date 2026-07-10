@@ -552,7 +552,8 @@ section[id] {
 }
 
 .section--datos,
-.section--proyectos {
+.section--proyectos,
+.section--proyectos-personales {
   background-color: var(--color-bg-dark-alt);
 }
 
@@ -618,7 +619,8 @@ section[id] {
   }
 }
 
-.section--proyectos {
+.section--proyectos,
+.section--proyectos-personales {
   position: relative;
   overflow: visible;
 
@@ -703,6 +705,48 @@ section[id] {
   --btn-repo: #388E3C; 
   --btn-presentacion: #4CAF50; 
   --btn-sitio: #81C784; 
+}
+
+.section--proyecto-detalle.project__detail--wp::before {
+  background: linear-gradient(
+    135deg,
+    rgba(106, 27, 154, 0.62),
+    rgba(41, 10, 61, 0.68)
+  );
+}
+
+.section--proyecto-detalle.project__detail--wp {
+  --btn-repo: #6A1B9A;
+  --btn-presentacion: #8E24AA;
+  --btn-sitio: #CE93D8;
+}
+
+.section--proyecto-detalle.project__detail--pr::before {
+  background: linear-gradient(
+    135deg,
+    rgba(183, 28, 28, 0.62),
+    rgba(70, 10, 10, 0.68)
+  );
+}
+
+.section--proyecto-detalle.project__detail--pr {
+  --btn-repo: #B71C1C;
+  --btn-presentacion: #E53935;
+  --btn-sitio: #FFD54F;
+}
+
+.section--proyecto-detalle.project__detail--ag::before {
+  background: linear-gradient(
+    135deg,
+    rgba(160, 82, 45, 0.62),
+    rgba(74, 36, 15, 0.68)
+  );
+}
+
+.section--proyecto-detalle.project__detail--ag {
+  --btn-repo: #A0522D;
+  --btn-presentacion: #D2691E;
+  --btn-sitio: #E8B77E;
 }
 
 @media (max-width: 860px) {
@@ -1197,6 +1241,39 @@ section[id] {
     135deg,
     rgba(56, 142, 60, 0.62),
     rgba(18, 68, 24, 0.68)
+  );
+}
+
+.project__card--wp::before {
+  background-image: url('/assets/images/background-wp.jpg');
+}
+.project__card--wp::after {
+  background: linear-gradient(
+    135deg,
+    rgba(106, 27, 154, 0.62),
+    rgba(41, 10, 61, 0.68)
+  );
+}
+
+.project__card--pr::before {
+  background-image: url('/assets/images/background-pr.jpg');
+}
+.project__card--pr::after {
+  background: linear-gradient(
+    135deg,
+    rgba(183, 28, 28, 0.62),
+    rgba(70, 10, 10, 0.68)
+  );
+}
+
+.project__card--ag::before {
+  background-image: url('/assets/images/background-ag.jpg');
+}
+.project__card--ag::after {
+  background: linear-gradient(
+    135deg,
+    rgba(160, 82, 45, 0.62),
+    rgba(74, 36, 15, 0.68)
   );
 }
 
