@@ -81,7 +81,7 @@ export const PROJECTS_DATA = [
         links: {
         repo: 'https://github.com/aalvarez-2024004/EcoApp.git',
         presentacion: '#',
-        sitio: '#',
+        sitio: 'https://app-movil-eco-kinal.vercel.app/',
         },
     },
 ];
