@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { PROJECT_TECHNOLOGIES } from '../data/projectTechData';
+import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
 
 function TechRow({ item }) {
     return (
@@ -86,6 +87,11 @@ export default function ProjectTechStack({ projectId }) {
     const maxIndex = getMaxIndex();
     const needsArrows = maxIndex > 0;
 
+    const swipeHandlers = useSwipeNavigation({
+        onSwipeLeft: () => goToColumn(colIndex + 1),
+        onSwipeRight: () => goToColumn(colIndex - 1),
+    });
+
     return (
         <div className="tech__stack">
         <span className="section__eyebrow tech__eyebrow">Tecnologías utilizadas</span>
@@ -101,7 +107,7 @@ export default function ProjectTechStack({ projectId }) {
             ‹
             </button>
 
-            <div className="tech__viewport">
+            <div className="tech__viewport" {...swipeHandlers}>
             <div className="tech__grid" ref={gridRef} style={{ transform }}>
                 {columns.map((column, i) => (
                 <div className="tech__column" key={`${projectId}-col-${i}`}>

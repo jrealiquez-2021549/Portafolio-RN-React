@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLightbox } from '../hooks/LightboxContext';
+import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
 
 const AUTOPLAY_MS = 5000;
 
@@ -50,6 +51,11 @@ export default function ProjectImageCarousel({ project }) {
     resetAutoplay();
   };
 
+  const swipeHandlers = useSwipeNavigation({
+    onSwipeLeft: () => handleArrowClick(1),
+    onSwipeRight: () => handleArrowClick(-1),
+  });
+
   return (
     <div
       className={`project__carousel project__carousel--${project.id}`}
@@ -58,6 +64,18 @@ export default function ProjectImageCarousel({ project }) {
         if (timerRef.current) clearInterval(timerRef.current);
       }}
       onMouseLeave={resetAutoplay}
+      onTouchStart={(e) => {
+        if (timerRef.current) clearInterval(timerRef.current);
+        swipeHandlers.onTouchStart(e);
+      }}
+      onTouchEnd={(e) => {
+        swipeHandlers.onTouchEnd(e);
+        resetAutoplay();
+      }}
+      onTouchCancel={() => {
+        swipeHandlers.onTouchCancel();
+        resetAutoplay();
+      }}
     >
       <div
         className="project__carousel-track"

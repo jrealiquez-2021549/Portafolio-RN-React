@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
+import { useSwipeNavigation } from '../hooks/useSwipeNavigation';
 import ProjectCard from './ProjectCard';
 import ProjectDetail from './ProjectDetail';
 
@@ -65,6 +66,11 @@ export default function ProjectsSection({
   const needsArrows = maxIndex > 0;
   const selectedProject = projectsData.find((p) => p.id === selectedId) || projectsData[0];
 
+  const swipeHandlers = useSwipeNavigation({
+    onSwipeLeft: () => goToCard(cardIndex + 1),
+    onSwipeRight: () => goToCard(cardIndex - 1),
+  });
+
   return (
     <>
       <section
@@ -94,7 +100,7 @@ export default function ProjectsSection({
               ‹
             </button>
 
-            <div className="projects__viewport">
+            <div className="projects__viewport" {...swipeHandlers}>
               <div className="projects__grid" ref={gridRef} style={{ transform }}>
                 {projectsData.map((project) => (
                   <ProjectCard
