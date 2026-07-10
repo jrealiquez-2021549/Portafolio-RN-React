@@ -5,10 +5,19 @@ const CONTACT_EMAIL = 'realiqueznoriega80@gmail.com';
 
 const NAV_LINKS = [
   { href: '#inicio', label: 'Inicio' },
-  { href: '#descripcion', label: 'Sobre mí' },
-  { href: '#habilidades', label: 'Habilidades técnicas' },
-  { href: '#proyectos', label: 'Proyectos Destacados' },
-  { href: '#proyectos-personales', label: 'Proyectos Personales' },
+  {
+    href: '#descripcion',
+    label: 'Sobre mí',
+    children: [{ href: '#habilidades', label: 'Habilidades Técnicas' }],
+  },
+  {
+    href: '#proyectos',
+    label: 'Proyectos',
+    children: [
+      { href: '#proyectos', label: 'Proyectos Destacados' },
+      { href: '#proyectos-personales', label: 'Proyectos Personales' },
+    ],
+  },
 ];
 
 export default function Navbar() {
@@ -84,6 +93,9 @@ export default function Navbar() {
 
   const handleNavLinkClick = () => setIsNavOpen(false);
 
+  const isLinkActive = (link) =>
+    activeHref === link.href || (link.children?.some((child) => child.href === activeHref) ?? false);
+
   const handleCopyEmail = async () => {
     try {
       await navigator.clipboard.writeText(CONTACT_EMAIL);
@@ -107,14 +119,34 @@ export default function Navbar() {
       <nav className="navbar__inner">
         <ul className="navbar__links" id="navLinks">
           {NAV_LINKS.map((link) => (
-            <li key={link.href}>
+            <li
+              key={link.href}
+              className={`navbar__item${link.children ? ' navbar__item--has-submenu' : ''}`}
+            >
               <a
                 href={link.href}
-                className={`navbar__link${activeHref === link.href ? ' is-active' : ''}`}
+                className={`navbar__link${isLinkActive(link) ? ' is-active' : ''}`}
                 onClick={handleNavLinkClick}
               >
                 {link.label}
+                {link.children && <span className="navbar__caret" aria-hidden="true">⌄</span>}
               </a>
+
+              {link.children && (
+                <ul className="navbar__submenu">
+                  {link.children.map((child) => (
+                    <li key={child.href}>
+                      <a
+                        href={child.href}
+                        className={`navbar__sublink${activeHref === child.href ? ' is-active' : ''}`}
+                        onClick={handleNavLinkClick}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
